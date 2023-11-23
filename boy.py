@@ -4,6 +4,7 @@ from pico2d import get_time, load_image, load_font, clamp, SDL_KEYDOWN, SDL_KEYU
     SDLK_UP, SDLK_DOWN, \
     draw_rectangle
 
+import ball
 from ball import Ball
 import game_world
 import game_framework
@@ -299,7 +300,12 @@ class Boy:
         pass
 
     def get_bb(self):
-        return self.x - 20, self.y - 50, self.x + 20, self.y + 50
+        sx = self.x - server.background.window_left
+        sy = self.y - server.background.window_bottom
+
+        return sx - 20, sy - 50, sx + 20, sy + 50
 
     def handle_collision(self, group, other):
-        pass
+        match group:
+            case 'boy:ball':
+                self.ball_count += 1
